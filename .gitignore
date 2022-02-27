@@ -1,9 +1,9 @@
 .vscode/
 build/
-CmakeFiles/
+CMakeFiles/
 *.a
 *.o
 *.out
 *.cmake
 CMakeCache.txt
-MakeFile
+Makefile

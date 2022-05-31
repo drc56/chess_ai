@@ -13,6 +13,10 @@ Evaluator::~Evaluator()
 {
 }
 
+bool Evaluator::IsCheckmate(const libchess::Position& eval_position){
+    return eval_position.in_check() && eval_position.legal_moves().empty();
+}
+
 double Evaluator::MaterialEvaluator(const libchess::Position& eval_position)
 {
     // Evaluate White Pieces
@@ -34,8 +38,21 @@ double Evaluator::MaterialEvaluator(const libchess::Position& eval_position)
 
 double Evaluator::FullEvaluator(const libchess::Position& eval_position)
 {
+    double pos_eval = 0.0;
+
+    if(IsCheckmate(eval_position))
+    {
+        // If it's white turn that means black made the checkmate.
+        if(eval_position.turn() == libchess::White)
+            return -1000.0;
+        else
+            return 1000.0;
+    }
+
     // TODO Add more evaluation steps
-    return MaterialEvaluator(eval_position);
+    pos_eval += MaterialEvaluator(eval_position);
+
+    return pos_eval;
 }
 
 } // namespace eval

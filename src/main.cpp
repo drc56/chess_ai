@@ -7,7 +7,8 @@
 
 int main(int argc, char const *argv[])
 {
-    std::string fen = "1Q6/p7/q1p3p1/3p4/2kPpP2/4P1P1/P2B2K1/3r4 w - - 4 34";
+    // std::string fen = "1Q6/p7/q1p3p1/3p4/2kPpP2/4P1P1/P2B2K1/3r4 w - - 4 34";
+    std::string fen = "8/p7/q1p3p1/3p4/2kPpP2/1Q2P1P1/P2B2K1/3r4 b - - 5 34";
 
     auto pos = libchess::Position(fen);
 

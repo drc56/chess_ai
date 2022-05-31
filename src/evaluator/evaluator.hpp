@@ -19,6 +19,7 @@ class Evaluator
 public:
     Evaluator(/* args */);
     ~Evaluator();
+    bool IsCheckmate(const libchess::Position& eval_position);
     double MaterialEvaluator(const libchess::Position& eval_position);
     double FullEvaluator(const libchess::Position& eval_position);
     // BasicPieceEval()

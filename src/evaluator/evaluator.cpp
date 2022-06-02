@@ -13,11 +13,11 @@ Evaluator::~Evaluator()
 {
 }
 
-bool Evaluator::IsCheckmate(const libchess::Position& eval_position){
+[[nodiscard]] bool Evaluator::IsCheckmate(const libchess::Position& eval_position){
     return eval_position.in_check() && eval_position.legal_moves().empty();
 }
 
-double Evaluator::MaterialEvaluator(const libchess::Position& eval_position)
+[[nodiscard]] double Evaluator::MaterialEvaluator(const libchess::Position& eval_position)
 {
     // Evaluate White Pieces
     double white_material = eval_position.pieces(libchess::White, libchess::Pawn).count() * PAWN_WEIGHT +
@@ -36,7 +36,7 @@ double Evaluator::MaterialEvaluator(const libchess::Position& eval_position)
     return white_material + black_material;
 }
 
-double Evaluator::FullEvaluator(const libchess::Position& eval_position)
+[[nodiscard]] double Evaluator::FullEvaluator(const libchess::Position& eval_position)
 {
     double pos_eval = 0.0;
 

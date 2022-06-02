@@ -16,6 +16,15 @@ add_library(evaluator
             src/evaluator/evaluator.hpp 
             src/evaluator/evaluator.cpp )
 
+# Create Evaulator Library
+add_library(algo 
+            src/algo/algo.hpp 
+            src/algo/minimaxalgo.hpp
+            src/algo/minimaxalgo.cpp )
+
+target_link_libraries(algo
+                     evaluator)                   
+
 # Test executable application
 add_executable(chessai src/main.cpp)
 
@@ -23,5 +32,6 @@ add_executable(chessai src/main.cpp)
 # TODO (dcuomo) add a check to build the static library if it doesn't exist
 target_link_libraries(chessai 
                     evaluator
+                    algo
                     ${CMAKE_SOURCE_DIR}/lib/libchess/build/static/libchess.a)
 

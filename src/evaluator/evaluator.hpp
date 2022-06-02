@@ -1,3 +1,6 @@
+#ifndef EVALUATOR_H
+#define EVALUATOR_H
+
 #include <libchess/position.hpp>
 
 namespace eval{
@@ -19,11 +22,13 @@ class Evaluator
 public:
     Evaluator(/* args */);
     ~Evaluator();
-    bool IsCheckmate(const libchess::Position& eval_position);
-    double MaterialEvaluator(const libchess::Position& eval_position);
-    double FullEvaluator(const libchess::Position& eval_position);
+    [[nodiscard]] bool IsCheckmate(const libchess::Position& eval_position);
+    [[nodiscard]] double MaterialEvaluator(const libchess::Position& eval_position);
+    [[nodiscard]] double FullEvaluator(const libchess::Position& eval_position);
     // BasicPieceEval()
 private:
     /* data */
 };
 }
+
+#endif

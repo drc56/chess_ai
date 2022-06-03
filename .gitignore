@@ -1,4 +1,6 @@
 .vscode/
+_deps/
+bin/
 build/
 CMakeFiles/
 *.a

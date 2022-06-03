@@ -19,6 +19,17 @@ if(NOT TARGET spdlog)
     find_package(spdlog REQUIRED)
 endif()
 
+# I don't really care if I use GTEST from github
+include(FetchContent)
+
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG        release-1.11.0
+)
+FetchContent_MakeAvailable(googletest)
+add_library(GTest::GTest INTERFACE IMPORTED)
+target_link_libraries(GTest::GTest INTERFACE gtest_main)
 
 # TODO make subdirectory cmake files when ready
 # Create Evaulator Library
@@ -51,3 +62,8 @@ target_link_libraries(chessai
                     ${CMAKE_SOURCE_DIR}/lib/libchess/build/static/libchess.a
                     spdlog::spdlog)
 
+add_executable(
+    hello_test
+    test/hello_test.cpp
+)
+target_link_libraries(hello_test GTest::GTest pthread)

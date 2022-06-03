@@ -5,16 +5,28 @@ cmake_minimum_required(VERSION 3.16)
 set(CMAKE_CXX_STANDARD 17)
 
 # Set build location
-set(EXECUTABLE_OUTPUT_PATH build/ CACHE PATH "Build directory" FORCE)
+set(PROJECT_BINARY_DIR build/)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 
 #Set libchess include directories
 include_directories(${CMAKE_SOURCE_DIR}/lib/libchess/src)
+
+# Add spdlog
+if(NOT TARGET spdlog)
+    # Stand-alone build
+    find_package(spdlog REQUIRED)
+endif()
+
 
 # TODO make subdirectory cmake files when ready
 # Create Evaulator Library
 add_library(evaluator 
             src/evaluator/evaluator.hpp 
             src/evaluator/evaluator.cpp )
+
+target_link_libraries(evaluator PRIVATE spdlog::spdlog)
 
 # Create Evaulator Library
 add_library(algo 
@@ -25,7 +37,8 @@ add_library(algo
             src/algo/abminimaxalgo.cpp  )
 
 target_link_libraries(algo
-                     evaluator)                   
+                     evaluator
+                     spdlog::spdlog)                   
 
 # Test executable application
 add_executable(chessai src/main.cpp)
@@ -35,5 +48,6 @@ add_executable(chessai src/main.cpp)
 target_link_libraries(chessai 
                     evaluator
                     algo
-                    ${CMAKE_SOURCE_DIR}/lib/libchess/build/static/libchess.a)
+                    ${CMAKE_SOURCE_DIR}/lib/libchess/build/static/libchess.a
+                    spdlog::spdlog)
 

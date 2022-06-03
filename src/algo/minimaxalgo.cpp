@@ -1,4 +1,5 @@
 #include "minimaxalgo.hpp"
+#include <iostream>
 
 namespace algo{
 
@@ -58,6 +59,7 @@ MiniMaxAlgo::MiniMaxAlgo(int depth) : depth_{depth}, evaluator_{eval::Evaluator(
 
 [[nodiscard]] double MiniMaxAlgo::MiniMaxSubNode(libchess::Position* pos, const libchess::Side& color_to_play, int depth, bool is_maximizing)
 {
+
     // Check if the depth is over
     if(depth == 0 || evaluator_.IsCheckmate(*pos)){
         return evaluator_.FullEvaluator(*pos);

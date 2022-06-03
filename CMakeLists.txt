@@ -20,7 +20,9 @@ add_library(evaluator
 add_library(algo 
             src/algo/algo.hpp 
             src/algo/minimaxalgo.hpp
-            src/algo/minimaxalgo.cpp )
+            src/algo/minimaxalgo.cpp
+            src/algo/abminimaxalgo.hpp
+            src/algo/abminimaxalgo.cpp  )
 
 target_link_libraries(algo
                      evaluator)                   

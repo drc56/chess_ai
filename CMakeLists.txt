@@ -32,6 +32,12 @@ add_library(GTest::GTest INTERFACE IMPORTED)
 target_link_libraries(GTest::GTest INTERFACE gtest_main)
 
 # TODO make subdirectory cmake files when ready
+
+add_library(common
+            INTERFACE)
+target_include_directories(common INTERFACE src/common/)
+
+
 # Create Evaulator Library
 add_library(evaluator 
             src/evaluator/evaluator.hpp 
@@ -49,7 +55,8 @@ add_library(algo
 
 target_link_libraries(algo
                      evaluator
-                     spdlog::spdlog)                   
+                     spdlog::spdlog
+                     common)                   
 
 # Test executable application
 add_executable(chessai src/main.cpp)

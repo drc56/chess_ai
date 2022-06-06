@@ -1,17 +1,31 @@
 #include "abminimaxalgo.hpp"
 #include <iostream>
+
 namespace algo
 {
     
 ABMiniMaxAlgo::ABMiniMaxAlgo(int depth) : depth_{depth}, evaluator_{eval::Evaluator()}
 {
+    done_.store(false);
+    active_jobs_.store(0);
+    for(unsigned int i = 0; i < THREAD_LIMIT; i++){
+        threads_.push_back(std::thread(&ABMiniMaxAlgo::WorkerThread, this));
+    }
+}
 
+ABMiniMaxAlgo::~ABMiniMaxAlgo()
+{
+    done_.store(true);
+    for(unsigned int i = 0; i < threads_.size(); i++){
+        threads_[i].join();
+    }
 }
 
 [[nodiscard]] libchess::Move ABMiniMaxAlgo::GetNextMove(libchess::Position* pos, const libchess::Side& color_to_play) 
 {
     return ABMiniMaxRootNode(pos, color_to_play);
 }
+
 
 [[nodiscard]] libchess::Move ABMiniMaxAlgo::ABMiniMaxRootNode(libchess::Position* pos, const libchess::Side& color_to_play)
 {
@@ -33,32 +47,57 @@ ABMiniMaxAlgo::ABMiniMaxAlgo(int depth) : depth_{depth}, evaluator_{eval::Evalua
     // Setup maximizing boolean
     bool is_maximizing = true;
 
+    // Queue the Jobs
     for(const auto& move : legal_moves){
         pos->makemove(move);
+        ABMiniMaxArgs job_args = {move, *pos, color_to_play, depth_, is_maximizing, alpha, beta};
+        pos->undomove();
+        job_queue_.push(job_args);
+    }
+    // Check the results
+    while(active_jobs_ > 0 || !results_queue_.isempty() )
+    {   
+        ResultsPair res = results_queue_.pop();
         switch (color_to_play){
             case libchess::White:
             {
-                double eval = ABMiniMaxSubNode(pos, color_to_play, depth_, !is_maximizing, alpha, beta);
-                if(eval > best_eval){
-                    best_eval = eval;
-                    best_move = move;
+                if(res.second > best_eval){
+                    best_eval = res.second;
+                    best_move = res.first;
                 }
                 break;
             }
             case libchess::Black:
             {
-                double eval = ABMiniMaxSubNode(pos, color_to_play, depth_, !is_maximizing, alpha, beta);
-                if(eval < best_eval){
-                    best_eval = eval;
-                    best_move = move;
+                if(res.second < best_eval){
+                    best_eval = res.second;
+                    best_move = res.first;
                 }
                 break;
             }
         }
-        pos->undomove();
     }
-
     return best_move;
+}
+
+void ABMiniMaxAlgo::WorkerThread()
+{
+    while(!done_)
+    {
+        // Switch this to a try pop so we can interrupt the thread
+        if(!job_queue_.isempty())
+        {
+            ABMiniMaxArgs args = job_queue_.pop();
+            active_jobs_++;
+            double result = ABMiniMaxSubNode(&(args.pos), args.side, args.depth, args.is_maximizing, args.alpha, args.beta);
+            results_queue_.push(algo::ResultsPair(args.move, result));
+            active_jobs_--;
+        }
+        else{
+            std::this_thread::yield();
+        }
+
+    }
 }
 
 [[nodiscard]] double ABMiniMaxAlgo::ABMiniMaxSubNode(libchess::Position* pos, const libchess::Side& color_to_play, int depth, bool is_maximizing, double alpha, double beta)

@@ -10,11 +10,11 @@ namespace eval{
  * Structu to contain what is returned from the evaluator.
  */
 
-constexpr double PAWN_WEIGHT = 1.0;
-constexpr double KNIGHT_WEIGHT = 3.0;
-constexpr double BISHOP_WEIGHT = 3.0;
-constexpr double ROOK_WEIGHT = 5.0;
-constexpr double QUEEN_WEIGHT = 9.0;
+constexpr int PAWN_WEIGHT = 100;
+constexpr int KNIGHT_WEIGHT = 300;
+constexpr int BISHOP_WEIGHT = 300;
+constexpr int ROOK_WEIGHT = 500;
+constexpr int QUEEN_WEIGHT = 900;
 
 class Evaluator
 {
@@ -23,8 +23,8 @@ public:
     Evaluator(/* args */);
     ~Evaluator();
     [[nodiscard]] bool IsCheckmate(const libchess::Position& eval_position);
-    [[nodiscard]] double MaterialEvaluator(const libchess::Position& eval_position);
-    [[nodiscard]] double FullEvaluator(const libchess::Position& eval_position);
+    [[nodiscard]] int MaterialEvaluator(const libchess::Position& eval_position);
+    [[nodiscard]] int FullEvaluator(const libchess::Position& eval_position);
     // BasicPieceEval()
 private:
     /* data */

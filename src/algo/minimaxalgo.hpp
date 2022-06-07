@@ -15,7 +15,7 @@ class MiniMaxAlgo : public ChessAiAlgo {
     private:
         // Function
         [[nodiscard]] libchess::Move MiniMaxRootNode(libchess::Position* pos, const libchess::Side& color_to_play);
-        [[nodiscard]] double MiniMaxSubNode(libchess::Position* pos, const libchess::Side& color_to_play, int depth, bool is_maximizing); 
+        [[nodiscard]] int MiniMaxSubNode(libchess::Position* pos, const libchess::Side& color_to_play, int depth, bool is_maximizing); 
         // Member Variables
         int depth_;
         eval::Evaluator evaluator_;

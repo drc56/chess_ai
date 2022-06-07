@@ -15,7 +15,7 @@
 
 namespace algo {
 
-constexpr double BASE_VALUE = -9999.9;
+constexpr int BASE_VALUE = -99999;
 constexpr int THREAD_LIMIT = 4;
 
 struct ABMiniMaxArgs{
@@ -24,11 +24,11 @@ struct ABMiniMaxArgs{
     libchess::Side side;
     int depth;
     bool is_maximizing;
-    double alpha;
-    double beta;
+    int alpha;
+    int beta;
 };
 
-using ResultsPair = std::pair<libchess::Move, double>;
+using ResultsPair = std::pair<libchess::Move, int>;
 
 class ABMiniMaxAlgo : public ChessAiAlgo {
     public:
@@ -38,7 +38,7 @@ class ABMiniMaxAlgo : public ChessAiAlgo {
     private:
         // Function
         [[nodiscard]] libchess::Move ABMiniMaxRootNode(libchess::Position* pos, const libchess::Side& color_to_play);
-        [[nodiscard]] double ABMiniMaxSubNode(libchess::Position* pos, const libchess::Side& color_to_play, int depth, bool is_maximizing, double alpha, double beta); 
+        [[nodiscard]] int ABMiniMaxSubNode(libchess::Position* pos, const libchess::Side& color_to_play, int depth, bool is_maximizing, int alpha, int beta); 
         void WorkerThread();
         
         // Member Variables
@@ -46,6 +46,7 @@ class ABMiniMaxAlgo : public ChessAiAlgo {
         eval::Evaluator evaluator_;
         // std::unordered_map<libchess::Move, std::future<double>> thread_pool_;
 
+        // Thread Pool related variables
         common::ThreadSafeQueue<ResultsPair> results_queue_;
         common::ThreadSafeQueue<ABMiniMaxArgs> job_queue_;
         std::vector<std::thread> threads_;

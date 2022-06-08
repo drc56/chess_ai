@@ -1,3 +1,3 @@
 [submodule "lib/libchess"]
 	path = lib/libchess
-	url = https://github.com/kz04px/libchess.git
+	url = git@github.com:drc56/libchess.git

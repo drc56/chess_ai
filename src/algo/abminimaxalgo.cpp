@@ -39,24 +39,25 @@ ABMiniMaxAlgo::~ABMiniMaxAlgo()
 
     // Generate Moves
     auto legal_moves = GetMoveList(*pos);
-
     // Setup maximizing boolean
     bool is_maximizing = true;
 
     // Queue the Jobs
     for(const auto& move : legal_moves){
         pos->makemove(move);
-        ABMiniMaxArgs job_args = {move, *pos, color_to_play, depth_, is_maximizing, alpha, beta};
+        ABMiniMaxArgs job_args = {move, *pos, color_to_play, depth_, !is_maximizing, alpha, beta};
         pos->undomove();
+        // std::cout << job_args.pos << std::endl;
+        // std::cout << *pos << std::endl;
         job_queue_.push(job_args);
         queued_jobs++;
+
     }
-    std::cout << "queued_jobs" << queued_jobs << std::endl;
     // Check the results
     while(queued_jobs > 0)
     {   
         ResultsPair res = results_queue_.pop();
-        std::cout << "Move: " << res.first << "Eval: " << res.second << std::endl;
+        // std::cout << "Move: " << res.first << "Eval: " << res.second << std::endl;
 
         if(res.second > best_eval){
             best_eval = res.second;
@@ -64,8 +65,6 @@ ABMiniMaxAlgo::~ABMiniMaxAlgo()
         }
         queued_jobs--;
     }
-
-    std::cout << "queued_jobs " << queued_jobs << std::endl;
     return best_move;
 }
 
@@ -92,6 +91,7 @@ void ABMiniMaxAlgo::WorkerThread()
 [[nodiscard]] int ABMiniMaxAlgo::ABMiniMaxSubNode(libchess::Position* pos, const libchess::Side& color_to_play, int depth, bool is_maximizing, int alpha, int beta)
 {
     // End recursion
+
     if(evaluator_.IsCheckmate(*pos) || depth == 0){
         if (color_to_play == libchess::White)
         {
@@ -100,9 +100,8 @@ void ABMiniMaxAlgo::WorkerThread()
         else{
             return evaluator_.FullEvaluator(*pos) * -1;
         }
-        
-
     }
+
     // Setup best eval
     int best_eval;
     if(is_maximizing){
@@ -112,34 +111,32 @@ void ABMiniMaxAlgo::WorkerThread()
         best_eval = -1 * BASE_VALUE;
     }
 
-
     auto legal_moves = GetMoveList(*pos);
     int count = 0;
     for(const auto& move : legal_moves){
         pos->makemove(move);
         if(is_maximizing){
             int eval = ABMiniMaxSubNode(pos, color_to_play, depth-1, !is_maximizing, alpha, beta);
-                if(eval > best_eval){
-                    best_eval = eval;
-                }
-                alpha = std::max(alpha, best_eval);
-                if(beta <= alpha){
-                    pos->undomove();
-                    break;
-                }
+            if(eval > best_eval){
+                best_eval = eval;
+            }
+            pos->undomove();
+            alpha = std::max(alpha, best_eval);
+            if(beta <= alpha){
+                return best_eval;
+            }
         }
         else{
             int eval = ABMiniMaxSubNode(pos, color_to_play, depth-1, !is_maximizing, alpha, beta);
             if(eval < best_eval){
                 best_eval = eval;
             }
+            pos->undomove();
             beta = std::min(beta, best_eval);
             if(beta <= alpha){
-                pos->undomove();
-                break;
+                return best_eval;
             }
         }
-        pos->undomove();
         count++;
     }
     return best_eval;

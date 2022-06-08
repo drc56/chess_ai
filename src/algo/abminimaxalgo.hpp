@@ -16,7 +16,7 @@
 namespace algo {
 
 constexpr int BASE_VALUE = -99999;
-constexpr int THREAD_LIMIT = 4;
+constexpr int THREAD_LIMIT = 1;
 
 struct ABMiniMaxArgs{
     libchess::Move move;

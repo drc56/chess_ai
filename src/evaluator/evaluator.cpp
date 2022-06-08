@@ -1,5 +1,5 @@
 #include "evaluator.hpp"
-
+#include <iostream>
 #include <libchess/side.hpp>
 #include <libchess/piece.hpp>
 
@@ -51,7 +51,6 @@ Evaluator::~Evaluator()
 
     // TODO Add more evaluation steps
     pos_eval += MaterialEvaluator(eval_position);
-
     return pos_eval;
 }
 

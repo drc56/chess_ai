@@ -12,7 +12,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 
 #Set libchess include directories
 include_directories(${CMAKE_SOURCE_DIR}/lib/libchess/src)
-
+set(LIBCHESS_STATIC ${CMAKE_SOURCE_DIR}/lib/libchess/build/static/libchess.a)
+set(LIBCHESS_SHARED ${CMAKE_SOURCE_DIR}/lib/libchess/build/shared/libchess.so)
 # Add spdlog
 if(NOT TARGET spdlog)
     # Stand-alone build
@@ -66,11 +67,20 @@ add_executable(chessai src/main.cpp)
 target_link_libraries(chessai 
                     evaluator
                     algo
-                    ${CMAKE_SOURCE_DIR}/lib/libchess/build/static/libchess.a
+                    ${LIBCHESS_SHARED}
                     spdlog::spdlog)
+
+# Create Test Executables
 
 add_executable(
     hello_test
     test/hello_test.cpp
 )
-target_link_libraries(hello_test GTest::GTest pthread)
+target_link_libraries(hello_test GTest::GTest)
+
+add_executable(
+  abpminimax_test
+  test/abpminimax_test.cpp
+)
+
+target_link_libraries(abpminimax_test GTest::GTest algo ${LIBCHESS_SHARED})

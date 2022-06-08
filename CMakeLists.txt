@@ -2,7 +2,7 @@ project(ChessAi)
 
 #Configure C++ & CMake
 cmake_minimum_required(VERSION 3.16)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 # Set build location
 set(PROJECT_BINARY_DIR build/)

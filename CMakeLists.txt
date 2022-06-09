@@ -71,13 +71,6 @@ target_link_libraries(chessai
                     spdlog::spdlog)
 
 # Create Test Executables
-
-add_executable(
-    hello_test
-    test/hello_test.cpp
-)
-target_link_libraries(hello_test GTest::GTest)
-
 add_executable(
   abpminimax_test
   test/abpminimax_test.cpp

@@ -27,7 +27,8 @@ int main(int argc, char const *argv[])
     // std::string fen = "r3k3/7p/6p1/3N1p2/7r/3P4/PPP2PPP/R5K1 w - - 2 2"; //kngiht fork w/ tolns of pawns
     // std::string fen = "r3k3/7p/6p1/3N1p2/7r/8/P5PP/R5K1 w - - 2 2"; //kngiht fork w/o tons of pawns
     // std::string fen = "r7/2Nk3p/6p1/5p2/7r/8/P5PP/R5K1 w - - 4 3";
-    std::string fen = "2q3k1/8/8/5N2/6P1/7K/8/8 w - - 0 1";
+    // std::string fen = "2q3k1/8/8/5N2/6P1/7K/8/8 w - - 0 1";
+    std::string fen = "6k1/5r1p/p2N4/nppP2q1/2P5/1P2N3/PQ5P/7K w - - 0 1";
     auto pos = libchess::Position(fen);
 
     std::cout << pos << std::endl;
@@ -50,20 +51,20 @@ int main(int argc, char const *argv[])
 
 
     auto start = std::chrono::high_resolution_clock::now();
-    algo::ABMiniMaxAlgo abminimax(3);
+    algo::ABMiniMaxAlgo abminimax(5);
     auto next_move = abminimax.GetNextMove(&pos, libchess::White);
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
     std::cout << "abpminimax move to play is: " << next_move << " Time taken: " << duration.count() << std::endl;
 
-    pos.makemove("f5e7");
-    pos.makemove("g8f7");
+    // pos.makemove("f5e7");
+    // pos.makemove("g8f7");
 
-    start = std::chrono::high_resolution_clock::now();
-    next_move = abminimax.GetNextMove(&pos, libchess::White);
-    stop = std::chrono::high_resolution_clock::now();
-    duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    std::cout << "abpminimax move to play is: " << next_move << " Time taken: " << duration.count() << std::endl;
+    // start = std::chrono::high_resolution_clock::now();
+    // next_move = abminimax.GetNextMove(&pos, libchess::White);
+    // stop = std::chrono::high_resolution_clock::now();
+    // duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    // std::cout << "abpminimax move to play is: " << next_move << " Time taken: " << duration.count() << std::endl;
 
 
 

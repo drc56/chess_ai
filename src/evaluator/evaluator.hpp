@@ -6,7 +6,7 @@
 #include <libchess/side.hpp>
 #include <libchess/square.hpp>
 
-namespace eval{
+namespace eval {
 
 /**
  * @brief EvalResult
@@ -20,27 +20,29 @@ constexpr int ROOK_WEIGHT = 500;
 constexpr int QUEEN_WEIGHT = 900;
 constexpr int MOBILITY_WEIGHT = 10;
 
-class Evaluator
-{
-
-public:
+class Evaluator {
+   public:
     Evaluator(/* args */);
     ~Evaluator();
     [[nodiscard]] bool IsCheckmate(const libchess::Position& eval_position);
 
-    template<libchess::Piece piece>
-    [[nodiscard]] int CountControlSquares(const libchess::Position& eval_position, const libchess::Side& color, libchess::Bitboard(*func)(libchess::Square, const libchess::Bitboard&));
-    
-    template<libchess::Piece piece>
-    [[nodiscard]] int CountControlSquares(const libchess::Position& eval_position, const libchess::Side& color, libchess::Bitboard(*func)(libchess::Square));
-    
+    template <libchess::Piece piece>
+    [[nodiscard]] int CountControlSquares(const libchess::Position& eval_position,
+                                          const libchess::Side& color,
+                                          libchess::Bitboard (*func)(libchess::Square, const libchess::Bitboard&));
+
+    template <libchess::Piece piece>
+    [[nodiscard]] int CountControlSquares(const libchess::Position& eval_position,
+                                          const libchess::Side& color,
+                                          libchess::Bitboard (*func)(libchess::Square));
+
     [[nodiscard]] int MobilityEvaluator(const libchess::Position& eval_position);
     [[nodiscard]] int MaterialEvaluator(const libchess::Position& eval_position);
     [[nodiscard]] int FullEvaluator(const libchess::Position& eval_position);
     // BasicPieceEval()
-private:
+   private:
     /* data */
 };
-}
+}  // namespace eval
 
 #endif

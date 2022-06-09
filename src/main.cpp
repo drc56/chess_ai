@@ -5,6 +5,7 @@
 #include <libchess/position.hpp>
 #include <libchess/side.hpp>
 #include <libchess/piece.hpp>
+#include <libchess/movegen.hpp>
 #include <spdlog/spdlog.h>
 
 
@@ -28,7 +29,8 @@ int main(int argc, char const *argv[])
     // std::string fen = "r3k3/7p/6p1/3N1p2/7r/8/P5PP/R5K1 w - - 2 2"; //kngiht fork w/o tons of pawns
     // std::string fen = "r7/2Nk3p/6p1/5p2/7r/8/P5PP/R5K1 w - - 4 3";
     // std::string fen = "2q3k1/8/8/5N2/6P1/7K/8/8 w - - 0 1";
-    std::string fen = "6k1/5r1p/p2N4/nppP2q1/2P5/1P2N3/PQ5P/7K w - - 0 1";
+    // std::string fen = "6k1/5r1p/p2N4/nppP2q1/2P5/1P2N3/PQ5P/7K w - - 0 1";
+    std::string fen = "8/4kprb/6p1/6Pp/4B2P/P7/8/1K2R3 b - - 0 1";
     auto pos = libchess::Position(fen);
 
     std::cout << pos << std::endl;
@@ -39,8 +41,8 @@ int main(int argc, char const *argv[])
     //     std::cout << "Move is: " << move << std::endl;
     // }    
 
-    // auto evaluator = eval::Evaluator();
-    // std::cout << "Position value is : " << evaluator.FullEvaluator(pos) << std::endl;
+    auto evaluator = eval::Evaluator();
+    std::cout << "Position value is : " << evaluator.FullEvaluator(pos) << std::endl;
 
     // auto start = std::chrono::high_resolution_clock::now();
     // auto minimax = algo::MiniMaxAlgo(3);
@@ -49,13 +51,12 @@ int main(int argc, char const *argv[])
     // auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
     // std::cout << "minimax move to play is: " << next_move << " Time taken: " << duration.count() << std::endl;
 
-
-    auto start = std::chrono::high_resolution_clock::now();
-    algo::ABMiniMaxAlgo abminimax(5);
-    auto next_move = abminimax.GetNextMove(&pos, libchess::White);
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    std::cout << "abpminimax move to play is: " << next_move << " Time taken: " << duration.count() << std::endl;
+    // auto start = std::chrono::high_resolution_clock::now();
+    // algo::ABMiniMaxAlgo abminimax(5);
+    // auto next_move = abminimax.GetNextMove(&pos, libchess::White);
+    // auto stop = std::chrono::high_resolution_clock::now();
+    // auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    // std::cout << "abpminimax move to play is: " << next_move << " Time taken: " << duration.count() << std::endl;
 
     // pos.makemove("f5e7");
     // pos.makemove("g8f7");

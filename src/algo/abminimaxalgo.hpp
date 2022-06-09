@@ -12,6 +12,8 @@
 #include <utility>
 #include <thread>
 #include <atomic>
+#include <memory>
+
 
 namespace algo {
 
@@ -54,6 +56,8 @@ class ABMiniMaxAlgo : public ChessAiAlgo {
         std::atomic<int> active_jobs_;
 
 };
+
+using ABMiniMaxAlgoPtr = std::unique_ptr<ABMiniMaxAlgo>;
 
 } // namespace algo
 

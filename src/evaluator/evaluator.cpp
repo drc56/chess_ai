@@ -61,7 +61,7 @@ template <>
     int queen_mobility_score =
         CountControlSquares<libchess::Queen>(eval_position, libchess::White, &libchess::movegen::queen_moves) -
         CountControlSquares<libchess::Queen>(eval_position, libchess::Black, &libchess::movegen::queen_moves);
-    return knight_mobility_score + bishop_mobility_score + rook_mobility_score;
+    return knight_mobility_score + bishop_mobility_score + rook_mobility_score + queen_mobility_score;
 }
 
 [[nodiscard]] int Evaluator::MaterialEvaluator(const libchess::Position& eval_position) {

@@ -27,6 +27,24 @@ using solution_moves = std::pair<std::string, std::string>;
 using solution = std::vector<solution_moves>;
 using PuzzlePair = std::pair<fen, solution>;
 
+TEST_F(ABPMiniMaxTest, CheckmatePatterns){
+    std::array<PuzzlePair, 1> test_cases = {
+        std::make_pair("6k1/3qb1pp/4p3/ppp1P3/8/2PP1Q2/PP4PP/5RK1 w - - 0 1", solution({{"f3f7", "g8h8"}, {"f7f8", "e7f8"}, {"f1f8", "end"}})),};
+
+    for (auto& test_case : test_cases) {
+        libchess::Position test_pos(test_case.first);
+        for (auto& move : test_case.second) {
+            auto guess = abminimax_->GetNextMove(&test_pos, test_pos.turn());
+            EXPECT_EQ(static_cast<std::string>(guess), move.first);
+            if (move.second == "end") {
+                break;
+            }
+            test_pos.makemove(move.first);
+            test_pos.makemove(move.second);
+        }
+    }
+}
+
 TEST_F(ABPMiniMaxTest, SimpleFork) {
     // TODO (Dan) find a way to load these from a file? JSON or something
     std::array<PuzzlePair, 2> test_cases = {

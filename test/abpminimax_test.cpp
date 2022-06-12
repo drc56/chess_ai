@@ -28,8 +28,11 @@ using solution = std::vector<solution_moves>;
 using PuzzlePair = std::pair<fen, solution>;
 
 TEST_F(ABPMiniMaxTest, CheckmatePatterns){
-    std::array<PuzzlePair, 1> test_cases = {
-        std::make_pair("6k1/3qb1pp/4p3/ppp1P3/8/2PP1Q2/PP4PP/5RK1 w - - 0 1", solution({{"f3f7", "g8h8"}, {"f7f8", "e7f8"}, {"f1f8", "end"}})),};
+    std::array<PuzzlePair, 4> test_cases = {
+        std::make_pair("6k1/3qb1pp/4p3/ppp1P3/8/2PP1Q2/PP4PP/5RK1 w - - 0 1", solution({{"f3f7", "g8h8"}, {"f7f8", "e7f8"}, {"f1f8", "end"}})),
+        std::make_pair("R7/4kp2/5N2/4P3/8/8/8/6K1 w - - 0 1", solution({{"a8e8", "end"}})),
+        std::make_pair("5r1b/2R1R3/P4r2/2p2Nkp/2b3pN/6P1/4PP2/6K1 w - - 0 1", solution({{"e7g7", "h8g7"}, {"c7g7", "f6g6"}, {"g7g6","end"}})),
+        std::make_pair("5r1k/1b2Nppp/8/2R5/4Q3/8/5PPP/6K1 w - - 0 1", solution({{"e4h7", "h8h7"}, {"c5h5", "end"}}))};
 
     for (auto& test_case : test_cases) {
         libchess::Position test_pos(test_case.first);

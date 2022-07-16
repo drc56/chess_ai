@@ -68,31 +68,16 @@ template <>
 }
 
 [[nodiscard]] int Evaluator::MaterialEvaluator(const libchess::Position& eval_position) {
-    // Evaluate White Pieces
-    // int white_material = eval_position.pieces(libchess::White, libchess::Pawn).count() * PAWN_WEIGHT +
-    //                      eval_position.pieces(libchess::White, libchess::Knight).count() * KNIGHT_WEIGHT +
-    //                      eval_position.pieces(libchess::White, libchess::Bishop).count() * BISHOP_WEIGHT +
-    //                      eval_position.pieces(libchess::White, libchess::Rook).count() * ROOK_WEIGHT +
-    //                      eval_position.pieces(libchess::White, libchess::Queen).count() * QUEEN_WEIGHT;
-
-    // // Evaluate White Pieces
-    // int black_material = -1 * (eval_position.pieces(libchess::Black, libchess::Pawn).count() * PAWN_WEIGHT +
-    //                            eval_position.pieces(libchess::Black, libchess::Knight).count() * KNIGHT_WEIGHT +
-    //                            eval_position.pieces(libchess::Black, libchess::Bishop).count() * BISHOP_WEIGHT +
-    //                            eval_position.pieces(libchess::Black, libchess::Rook).count() * ROOK_WEIGHT +
-    //                            eval_position.pieces(libchess::Black, libchess::Queen).count() * QUEEN_WEIGHT);
 
     int white_material = 0;
-    for(const auto& p : libchess::pieces){
-        for(const auto& sq : eval_position.pieces(libchess::White, p)){
-            white_material += WEIGHT_TABLE[int(p)] + eval::PAWN_PIECE_TABLE[int(sq)];
-        }
-    }
-
     int black_material = 0;
     for(const auto& p : libchess::pieces){
+        auto weight = WEIGHT_TABLE[int(p)] ;
         for(const auto& sq : eval_position.pieces(libchess::White, p)){
-            black_material += WEIGHT_TABLE[int(p)]  + eval::PAWN_PIECE_TABLE[FLIP_SQUARE(int(sq))];
+            white_material += weight + eval::PAWN_PIECE_TABLE[int(sq)];
+        }
+        for(const auto& sq : eval_position.pieces(libchess::Black, p)){
+            black_material += weight  + eval::PAWN_PIECE_TABLE[FLIP_SQUARE(int(sq))];
         }
     }
 

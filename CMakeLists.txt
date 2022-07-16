@@ -46,7 +46,7 @@ add_library(evaluator
 
 target_link_libraries(evaluator PRIVATE spdlog::spdlog)
 
-# Create Evaulator Library
+# Create Algo Library
 add_library(algo 
             src/algo/algo.hpp 
             src/algo/minimaxalgo.hpp
@@ -59,6 +59,17 @@ target_link_libraries(algo
                      spdlog::spdlog
                      common)                   
 
+                    
+# Create Game Library
+add_library(gamemanager 
+            src/gamemanager/gamemanager.hpp 
+            src/gamemanager/gamemanager.cpp)
+
+target_link_libraries(gamemanager
+         algo
+         spdlog::spdlog)                   
+
+
 # Test executable application
 add_executable(chessai src/main.cpp)
 
@@ -67,6 +78,7 @@ add_executable(chessai src/main.cpp)
 target_link_libraries(chessai 
                     evaluator
                     algo
+                    gamemanager
                     ${LIBCHESS_SHARED}
                     spdlog::spdlog)
 

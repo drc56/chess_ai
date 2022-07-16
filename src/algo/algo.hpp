@@ -4,6 +4,13 @@
 #include <libchess/move.hpp>
 #include <libchess/position.hpp>
 #include <libchess/side.hpp>
+#include <memory>
+
+enum class AlgoType
+{
+    MiniMax = 0,
+    ABMiniMax = 1
+};
 
 namespace algo {
 
@@ -16,6 +23,8 @@ class ChessAiAlgo {
         return pos.legal_moves();
     }
 };
+
+using ChessAiAlgoPtr = std::unique_ptr<ChessAiAlgo>;
 
 }  // namespace algo
 

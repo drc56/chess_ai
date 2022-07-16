@@ -8,11 +8,6 @@
 
 namespace eval {
 
-/**
- * @brief EvalResult
- * Structu to contain what is returned from the evaluator.
- */
-
 class Evaluator {
    public:
     Evaluator(/* args */);
@@ -32,7 +27,7 @@ class Evaluator {
     [[nodiscard]] int MobilityEvaluator(const libchess::Position& eval_position);
     [[nodiscard]] int MaterialEvaluator(const libchess::Position& eval_position);
     [[nodiscard]] int FullEvaluator(const libchess::Position& eval_position);
-    // BasicPieceEval()
+
    private:
     /* data */
 };

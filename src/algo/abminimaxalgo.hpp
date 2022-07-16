@@ -51,7 +51,6 @@ class ABMiniMaxAlgo : public ChessAiAlgo {
     // Member Variables
     int depth_;
     eval::Evaluator evaluator_;
-    // std::unordered_map<libchess::Move, std::future<double>> thread_pool_;
 
     // Thread Pool related variables
     common::ThreadSafeQueue<ResultsPair> results_queue_;

@@ -5,16 +5,9 @@
 
 namespace eval {
 
-#define FLIP_SQUARE(square)(square^56)
+#define FLIP_SQUARE(square) (square ^ 56)
 
-constexpr std::array<int, 6> WEIGHT_TABLE = {
-    100,
-    300,
-    300,
-    500,
-    900,
-    1000
-};
+constexpr std::array<int, 6> WEIGHT_TABLE = {100, 300, 300, 500, 900, 1000};
 
 constexpr int PAWN_WEIGHT = 100;
 constexpr int KNIGHT_WEIGHT = 300;

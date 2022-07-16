@@ -1,9 +1,7 @@
 #include "evaluator.hpp"
-
 #include <iostream>
 #include <libchess/movegen.hpp>
 #include <libchess/piece.hpp>
-
 #include "eval_constants.hpp"
 
 namespace eval {
@@ -68,16 +66,15 @@ template <>
 }
 
 [[nodiscard]] int Evaluator::MaterialEvaluator(const libchess::Position& eval_position) {
-
     int white_material = 0;
     int black_material = 0;
-    for(const auto& p : libchess::pieces){
-        auto weight = WEIGHT_TABLE[int(p)] ;
-        for(const auto& sq : eval_position.pieces(libchess::White, p)){
+    for (const auto& p : libchess::pieces) {
+        auto weight = WEIGHT_TABLE[int(p)];
+        for (const auto& sq : eval_position.pieces(libchess::White, p)) {
             white_material += weight + eval::PAWN_PIECE_TABLE[int(sq)];
         }
-        for(const auto& sq : eval_position.pieces(libchess::Black, p)){
-            black_material += weight  + eval::PAWN_PIECE_TABLE[FLIP_SQUARE(int(sq))];
+        for (const auto& sq : eval_position.pieces(libchess::Black, p)) {
+            black_material += weight + eval::PAWN_PIECE_TABLE[FLIP_SQUARE(int(sq))];
         }
     }
 

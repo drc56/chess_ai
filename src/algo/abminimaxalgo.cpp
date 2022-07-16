@@ -41,16 +41,12 @@ ABMiniMaxAlgo::~ABMiniMaxAlgo() {
         pos->makemove(move);
         ABMiniMaxArgs job_args = {move, *pos, color_to_play, depth_, !is_maximizing, alpha, beta};
         pos->undomove();
-        // std::cout << job_args.pos << std::endl;
-        // std::cout << *pos << std::endl;
         job_queue_.push(job_args);
         queued_jobs++;
     }
     // Check the results
     while (queued_jobs > 0) {
         ResultsPair res = results_queue_.pop();
-        // std::cout << "Move: " << res.first << "Eval: " << res.second << std::endl;
-
         if (res.second > best_eval) {
             best_eval = res.second;
             best_move = res.first;
@@ -62,7 +58,6 @@ ABMiniMaxAlgo::~ABMiniMaxAlgo() {
 
 void ABMiniMaxAlgo::WorkerThread() {
     while (!done_) {
-        // Switch this to a try pop so we can interrupt the thread
         if (!job_queue_.isempty()) {
             ABMiniMaxArgs args = job_queue_.pop();
             active_jobs_++;

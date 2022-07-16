@@ -13,13 +13,6 @@ namespace eval {
  * Structu to contain what is returned from the evaluator.
  */
 
-constexpr int PAWN_WEIGHT = 100;
-constexpr int KNIGHT_WEIGHT = 300;
-constexpr int BISHOP_WEIGHT = 300;
-constexpr int ROOK_WEIGHT = 500;
-constexpr int QUEEN_WEIGHT = 900;
-constexpr int MOBILITY_WEIGHT = 10;
-
 class Evaluator {
    public:
     Evaluator(/* args */);

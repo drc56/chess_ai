@@ -1,7 +1,10 @@
 #include "evaluator.hpp"
+
 #include <iostream>
 #include <libchess/movegen.hpp>
 #include <libchess/piece.hpp>
+
+#include "eval_constants.hpp"
 
 namespace eval {
 
@@ -66,20 +69,34 @@ template <>
 
 [[nodiscard]] int Evaluator::MaterialEvaluator(const libchess::Position& eval_position) {
     // Evaluate White Pieces
-    int white_material = eval_position.pieces(libchess::White, libchess::Pawn).count() * PAWN_WEIGHT +
-                         eval_position.pieces(libchess::White, libchess::Knight).count() * KNIGHT_WEIGHT +
-                         eval_position.pieces(libchess::White, libchess::Bishop).count() * BISHOP_WEIGHT +
-                         eval_position.pieces(libchess::White, libchess::Rook).count() * ROOK_WEIGHT +
-                         eval_position.pieces(libchess::White, libchess::Queen).count() * QUEEN_WEIGHT;
+    // int white_material = eval_position.pieces(libchess::White, libchess::Pawn).count() * PAWN_WEIGHT +
+    //                      eval_position.pieces(libchess::White, libchess::Knight).count() * KNIGHT_WEIGHT +
+    //                      eval_position.pieces(libchess::White, libchess::Bishop).count() * BISHOP_WEIGHT +
+    //                      eval_position.pieces(libchess::White, libchess::Rook).count() * ROOK_WEIGHT +
+    //                      eval_position.pieces(libchess::White, libchess::Queen).count() * QUEEN_WEIGHT;
 
-    // Evaluate White Pieces
-    int black_material = -1 * (eval_position.pieces(libchess::Black, libchess::Pawn).count() * PAWN_WEIGHT +
-                               eval_position.pieces(libchess::Black, libchess::Knight).count() * KNIGHT_WEIGHT +
-                               eval_position.pieces(libchess::Black, libchess::Bishop).count() * BISHOP_WEIGHT +
-                               eval_position.pieces(libchess::Black, libchess::Rook).count() * ROOK_WEIGHT +
-                               eval_position.pieces(libchess::Black, libchess::Queen).count() * QUEEN_WEIGHT);
+    // // Evaluate White Pieces
+    // int black_material = -1 * (eval_position.pieces(libchess::Black, libchess::Pawn).count() * PAWN_WEIGHT +
+    //                            eval_position.pieces(libchess::Black, libchess::Knight).count() * KNIGHT_WEIGHT +
+    //                            eval_position.pieces(libchess::Black, libchess::Bishop).count() * BISHOP_WEIGHT +
+    //                            eval_position.pieces(libchess::Black, libchess::Rook).count() * ROOK_WEIGHT +
+    //                            eval_position.pieces(libchess::Black, libchess::Queen).count() * QUEEN_WEIGHT);
 
-    return white_material + black_material;
+    int white_material = 0;
+    for(const auto& p : libchess::pieces){
+        for(const auto& sq : eval_position.pieces(libchess::White, p)){
+            white_material += WEIGHT_TABLE[int(p)] + eval::PAWN_PIECE_TABLE[int(sq)];
+        }
+    }
+
+    int black_material = 0;
+    for(const auto& p : libchess::pieces){
+        for(const auto& sq : eval_position.pieces(libchess::White, p)){
+            black_material += WEIGHT_TABLE[int(p)]  + eval::PAWN_PIECE_TABLE[FLIP_SQUARE(int(sq))];
+        }
+    }
+
+    return white_material + (-1 * black_material);
 }
 
 [[nodiscard]] int Evaluator::FullEvaluator(const libchess::Position& eval_position) {
